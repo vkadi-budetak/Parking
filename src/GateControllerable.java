@@ -1,4 +1,4 @@
-// Interface - GateController
+// Interface - Работы шлагбаума
 public interface GateControllerable {
 
     void openEntryGate();

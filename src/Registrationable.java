@@ -1,10 +1,11 @@
 import java.util.List;
 
-// Interface - Car registration at the entrance
+// Interface - Реестрация автомобиля
 public interface Registrationable {
 
-    void Registration(Integer parkingNumber); // parking space number
+    void Registration(Integer parkingNumber); // При реестрации получает свой парк номер
 
-    //List збергіє список автомобілів
+    //List сохраняем список зарегестрированных атомобилей
     List<Integer> getListCarOnParking();
+
 }

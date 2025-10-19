@@ -1,9 +1,14 @@
-// Interface - printing/issuing a ticket
+// Interface - печать билета
+
 public interface TicketPrinterable {
 
-// метод видачі квитків
+// друк билета
 void ticketPrint(String ticket);
 
-// метод навності вільних місць
+// метод проверки парковочных мест
 boolean isPresenceOf(String place);
+
+
 }
+
+

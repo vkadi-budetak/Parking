@@ -1,4 +1,6 @@
+// Interface - оплата за парковку
+
 public interface Paymentsable {
 
-    void Payment(String amount);
+    boolean isPayment(String meaning);
 }
