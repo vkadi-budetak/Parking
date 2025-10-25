@@ -1,15 +1,18 @@
 /**
  * Create a class Transport vehicle
- * sedan, hatchback, station wagon, coupe, crossover, SUV
+ *     brand - бренд авто
+ *     type - тип авто (sedan, hatchback, station wagon, coupe, crossover, SUV)
+ *     carNumber - номер авто
+ *
  * */
 
 public abstract class TransportVehicle implements Comparable<TransportVehicle> {
     protected String brand; // brand Car
     protected String type; // type Car
-    protected int carNumber; // Number Car
+    protected String carNumber; // Number Car
 
     // Constructor
-    public TransportVehicle(String brand, String type, int carNumber) {
+    public TransportVehicle(String brand, String type, String carNumber) {
         this.brand = brand;
         this.type = type;
         this.carNumber = carNumber;
@@ -19,21 +22,21 @@ public abstract class TransportVehicle implements Comparable<TransportVehicle> {
     public String getBrand() {
         return brand;
     }
-
     public String getType() {
         return type;
     }
-
-    public int getCarNumber() {
+    public String getCarNumber() {
         return carNumber;
     }
+
+
 
 
     // Метод -> Приветсвие для человека
     public abstract String introduce ();
 
 
-    // Информационный метод -> Модель + тип автомобиля + номер авто +
+    // Информационный метод -> Модель + тип автомобиля + номер авто
     public void showCarInfo(){
         System.out.println("\uD83D\uDE97 Car model: " + brand + " - " + type + ", " +
                 "License plate number: " + carNumber);

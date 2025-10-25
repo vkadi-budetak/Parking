@@ -6,4 +6,5 @@ public interface FloorHelferable {
     void helpWithFloor(Integer numberFloor); // помощник разпределений по этажам
 
     List<Integer> getExpertFloor();
+    List<Integer> getParkingPlace();
 }
