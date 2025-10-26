@@ -10,12 +10,17 @@ public abstract class TransportVehicle implements Comparable<TransportVehicle> {
     protected String brand; // brand Car
     protected String type; // type Car
     protected String carNumber; // Number Car
+    protected VehicleSize size; // MOTORBIKE, CAR, SUV, TRUCK
+    protected VehicleState state; // NEW, PARKED, LEFT
 
     // Constructor
-    public TransportVehicle(String brand, String type, String carNumber) {
-        this.brand = brand;
-        this.type = type;
-        this.carNumber = carNumber;
+
+    public TransportVehicle(String brand, VehicleState state, VehicleSize size, String carNumber, String type) {
+        this.brand = brand != null ? brand : "N/A";
+        this.carNumber = carNumber != null ? brand : "N/A";
+        this.type = type != null ? brand : "N/A";
+        this.size = size != null ? size : VehicleSize.CAR;
+        this.state = VehicleState.NEW;
     }
 
     //Геттеры
@@ -28,18 +33,21 @@ public abstract class TransportVehicle implements Comparable<TransportVehicle> {
     public String getCarNumber() {
         return carNumber;
     }
-
-
-
+    public VehicleSize getSize() {
+        return size;
+    }
+    public VehicleState getState() {
+        return state;
+    }
 
     // Метод -> Приветсвие для человека
     public abstract String introduce ();
 
-
     // Информационный метод -> Модель + тип автомобиля + номер авто
     public void showCarInfo(){
-        System.out.println("\uD83D\uDE97 Car model: " + brand + " - " + type + ", " +
-                "License plate number: " + carNumber);
+        System.out.println("\uD83D\uDE97 " + brand + " " + type + " | plate= " +
+                 carNumber + " | size=" + size +
+                " | state=" + state);
     }
 
     //Будем делать фильтр по типу автомобиля
