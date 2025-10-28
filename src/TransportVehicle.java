@@ -1,3 +1,5 @@
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Create a class Transport vehicle
  *     brand - бренд авто
@@ -14,12 +16,11 @@ public abstract class TransportVehicle implements Comparable<TransportVehicle> {
     protected VehicleState state; // NEW, PARKED, LEFT
 
     // Constructor
-
     public TransportVehicle(String brand, VehicleState state, VehicleSize size, String carNumber, String type) {
-        this.brand = brand != null ? brand : "N/A";
-        this.carNumber = carNumber != null ? brand : "N/A";
-        this.type = type != null ? brand : "N/A";
-        this.size = size != null ? size : VehicleSize.CAR;
+        this.setBrand(brand);
+        this.setType(type);
+        this.setCarNumber(carNumber);
+        this.setSize(size);
         this.state = VehicleState.NEW;
     }
 
@@ -38,6 +39,23 @@ public abstract class TransportVehicle implements Comparable<TransportVehicle> {
     }
     public VehicleState getState() {
         return state;
+    }
+
+    public void setBrand(String brand) {
+        if (brand != null) this.brand = brand;
+        else System.out.println("brand is not correct");
+    }
+    public void setType(String type) {
+        if (type != null) this.type = type;
+        else System.out.println("type is not correct");
+    }
+    public void setCarNumber(String carNumber) {
+        if (carNumber != null ) this.carNumber = carNumber;
+    else System.out.println("carNumber is not correct");
+    }
+    public void setSize(VehicleSize size) {
+        if (size != null) this.size = size;
+        else System.out.println("carNumber is not correct");
     }
 
     // Метод -> Приветсвие для человека
