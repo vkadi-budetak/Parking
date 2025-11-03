@@ -1,5 +1,3 @@
-import org.jetbrains.annotations.NotNull;
-
 /**
  * Create a class Transport vehicle
  *     brand - бренд авто
