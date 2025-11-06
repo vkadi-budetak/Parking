@@ -3,6 +3,8 @@
  *     brand - бренд авто
  *     type - тип авто (sedan, hatchback, station wagon, coupe, crossover, SUV)
  *     carNumber - номер авто
+ *     size - тип авто
+ *     state - NEW, PARKED, LEFT (Новый автомобиль/припаркованный/Выехал)
  *
  * */
 
