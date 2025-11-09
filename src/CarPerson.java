@@ -30,8 +30,15 @@ public class CarPerson extends TransportVehicle implements Registrationable, Pay
     private static List<Integer> listCarOnParking = new ArrayList<>();
 
 
-    // Конструктор
+    // Короткий конструктор
+    public CarPerson(String brand, String type, String carNumber, VehicleSize size, String name) {
+        super(brand, VehicleState.NEW, size, carNumber, type);
+        this.name = name;
+        this.parked = false;
+    }
 
+
+    // Конструктор
     public CarPerson(String brand, VehicleState state, VehicleSize size, String carNumber, String type,
                      String name, LocalDateTime timeEntry, LocalDateTime timeDeparture, Duration timeParking,
                      boolean paid, String ticketId, Integer parkingPlace, boolean parked) {
@@ -129,7 +136,21 @@ public class CarPerson extends TransportVehicle implements Registrationable, Pay
 
     @Override
     public boolean isPayment(String meaning) {
-        return false;
+        List<String> payList = List.of("cash", "card", "applepay", "googlepay");
+
+        String method = meaning.toLowerCase();
+
+        if (payList.contains(method)) {
+            paid = true;
+            System.out.println("💳 Выбран способ оплаты: " + method);
+            System.out.println("✅ Оплата успешна!");
+            return true;
+        } else {
+            paid = false;
+            System.out.println("💳 Выбран способ оплаты: " + meaning);
+            System.out.println("❌ Неизвестный способ оплаты. Попробуйте другой..");
+            return false;
+        }
     }
 
     @Override
@@ -168,12 +189,12 @@ public class CarPerson extends TransportVehicle implements Registrationable, Pay
     // метод добавления зарегестрированых автомобилей
     private void addListCarOnParking(Integer parkingPlace) {
         listCarOnParking.add(parkingPlace);
-        System.out.println("✅ Авто добавлено в общий список зарегистрированных \\uD83D\\uDD22");
+        System.out.println("✅ Авто добавлено в общий список зарегистрированных \uD83D\uDE99");
     }
 
     @Override
     public List<Integer> getListCarOnParking() {
-        return List.of();
+        return listCarOnParking;
     }
 
     @Override

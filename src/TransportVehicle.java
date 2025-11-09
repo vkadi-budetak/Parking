@@ -1,7 +1,7 @@
 /**
  * Create a class Transport vehicle
  *     brand - бренд авто
- *     type - тип авто (sedan, hatchback, station wagon, coupe, crossover, SUV)
+ *     type - модель авто
  *     carNumber - номер авто
  *     size - тип авто
  *     state - NEW, PARKED, LEFT (Новый автомобиль/припаркованный/Выехал)
@@ -9,11 +9,11 @@
  * */
 
 public abstract class TransportVehicle implements Comparable<TransportVehicle> {
-    protected String brand; // brand Car
-    protected String type; // type Car
-    protected String carNumber; // Number Car
-    protected VehicleSize size; // MOTORBIKE, CAR, SUV, TRUCK
-    protected VehicleState state; // NEW, PARKED, LEFT
+    protected String brand;
+    protected String type;
+    protected String carNumber;
+    protected VehicleSize size;
+    protected VehicleState state;
 
     // Constructor
     public TransportVehicle(String brand, VehicleState state, VehicleSize size, String carNumber, String type) {
