@@ -1,9 +1,9 @@
 /**
- * Create a class Transport vehicle
+ * Transport vehicle - класс транспортного средтства
  *     brand - бренд авто
  *     type - модель авто
  *     carNumber - номер авто
- *     size - тип авто
+ *     size - тип авто ()
  *     state - NEW, PARKED, LEFT (Новый автомобиль/припаркованный/Выехал)
  *
  * */

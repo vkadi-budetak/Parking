@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Клас CarPerson - создаю автомобиль наследусь от TransportVehicle и имплементирую интерфейсы
+ * Класс CarPerson - создаю автомобиль наследусь от TransportVehicle и имплементирую интерфейсы
  * Registrationable, Paymentsable, FloorHelferable;
  * name - имя владельца авто
  * timeEntry - время приезда
@@ -17,6 +17,8 @@ import java.util.UUID;
  * parked - на парковке да или нет
  */
 public class CarPerson extends TransportVehicle implements Registrationable, Paymentsable, FloorHelferable {
+    // Список зарегестрированных автомобилей
+    private static List<Integer> listCarOnParking = new ArrayList<>();
     private String name;
     private LocalDateTime timeEntry;
     private LocalDateTime timeDeparture;
@@ -26,17 +28,12 @@ public class CarPerson extends TransportVehicle implements Registrationable, Pay
     private Integer parkingPlace;
     private boolean parked;
 
-    // Список зарегестрированных автомобилей
-    private static List<Integer> listCarOnParking = new ArrayList<>();
-
-
     // Короткий конструктор
     public CarPerson(String brand, String type, String carNumber, VehicleSize size, String name) {
         super(brand, VehicleState.NEW, size, carNumber, type);
         this.name = name;
         this.parked = false;
     }
-
 
     // Конструктор
     public CarPerson(String brand, VehicleState state, VehicleSize size, String carNumber, String type,
@@ -52,7 +49,6 @@ public class CarPerson extends TransportVehicle implements Registrationable, Pay
         this.parkingPlace = parkingPlace;
         this.parked = parked;
     }
-
 
     // Геттеры и сеттеры
     public String getName() {
@@ -144,7 +140,9 @@ public class CarPerson extends TransportVehicle implements Registrationable, Pay
             paid = true;
             System.out.println("💳 Выбран способ оплаты: " + method);
             System.out.println("✅ Оплата успешна!");
-            return true;
+
+            // Расчет стоимости парковки
+            return calculatingParkingCosts();
         } else {
             paid = false;
             System.out.println("💳 Выбран способ оплаты: " + meaning);
@@ -153,14 +151,36 @@ public class CarPerson extends TransportVehicle implements Registrationable, Pay
         }
     }
 
+    private boolean calculatingParkingCosts() {
+        timeDeparture = LocalDateTime.now();
+
+        timeParking = Duration.between(timeEntry, timeDeparture);
+
+        // Округляем минуты до часов
+        long minutes = timeParking.toMinutes();
+        long hours = (long) Math.ceil(minutes / 60.0);
+
+        double rate = this.size.getRatePerHour();
+        double price = hours * rate;
+
+        System.out.println("⏱ Время стоянки: " + minutes + " минут (" + hours + " часа)");
+        System.out.println("💸 Стоимость: " + price + " €");
+        System.out.println("🕒 Время выезда: " + timeDeparture);
+
+        state = VehicleState.LEFT;
+        parked = false;
+        ParkingManager.freePlace(parkingPlace);
+
+        return true;
+    }
+
     @Override
     public void registration(Integer parkingNumber) {
-        // 1. перевірка
-        System.out.println("Реестрация для " + name);
+        System.out.println("Регистрация для " + name);
         System.out.println("Ваш автомобиль - " + brand + ", " + type);
         System.out.println("Номер автомобиля - " + carNumber);
 
-        // Если авто незареестрированое
+        // Если авто незарегистрированое
         if (!parked) {
             // фиксируем время вьезда
             timeEntry = LocalDateTime.now();
@@ -168,14 +188,12 @@ public class CarPerson extends TransportVehicle implements Registrationable, Pay
             parkingPlace = parkingNumber;
             System.out.println(getName() + " Ваше парковочное место - " + parkingPlace);
 
-            // Создаем уникальный ticketId
             ticketId = UUID.randomUUID().toString(); // создаем уникальный код для каждого автомобиля
 
-            // Обновляем стан авто
             parked = true;
             state = VehicleState.PARKED;
 
-            // Добавляем в список зарегестрированых автомобилей 
+            // Добавляем в список зарегистрированых автомобилей
             addListCarOnParking(parkingPlace);
 
             System.out.println("🎫 Ticket ID: " + ticketId);
@@ -186,7 +204,7 @@ public class CarPerson extends TransportVehicle implements Registrationable, Pay
         }
     }
 
-    // метод добавления зарегестрированых автомобилей
+    // метод добавления зарегистрированых автомобилей
     private void addListCarOnParking(Integer parkingPlace) {
         listCarOnParking.add(parkingPlace);
         System.out.println("✅ Авто добавлено в общий список зарегистрированных \uD83D\uDE99");
