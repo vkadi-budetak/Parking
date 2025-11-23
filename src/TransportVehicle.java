@@ -63,7 +63,7 @@ public abstract class TransportVehicle implements Comparable<TransportVehicle> {
 
     // Информационный метод -> Модель + тип автомобиля + номер авто
     public void showCarInfo(){
-        System.out.println("\uD83D\uDE97 " + brand + " " + type + " | plate= " +
+        System.out.println("\uD83D\uDE97 " + brand + " " + type + " | номер= " +
                  carNumber + " | size=" + size +
                 " | state=" + state);
     }

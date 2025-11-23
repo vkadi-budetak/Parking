@@ -1,5 +1,6 @@
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -16,9 +17,7 @@ import java.util.UUID;
  * parkingPlace - номер парковочного места
  * parked - на парковке да или нет
  */
-public class CarPerson extends TransportVehicle implements Registrationable, Paymentsable, FloorHelferable {
-    // Список зарегестрированных автомобилей
-    private static List<Integer> listCarOnParking = new ArrayList<>();
+public class CarPerson extends TransportVehicle implements Registrationable, Paymentsable, FloorHelferable, TicketPrintable, Exitable {
     private String name;
     private LocalDateTime timeEntry;
     private LocalDateTime timeDeparture;
@@ -188,35 +187,88 @@ public class CarPerson extends TransportVehicle implements Registrationable, Pay
             parkingPlace = parkingNumber;
             System.out.println(getName() + " Ваше парковочное место - " + parkingPlace);
 
-            ticketId = UUID.randomUUID().toString(); // создаем уникальный код для каждого автомобиля
+            ticketId = UUID.randomUUID().toString().substring(0, 8); // создаем уникальный короткий ID код для каждого автомобиля
 
             parked = true;
             state = VehicleState.PARKED;
 
-            // Добавляем в список зарегистрированых автомобилей
-            addListCarOnParking(parkingPlace);
+            // Вызываем метод интерфейса
+            printParkingTicket();
 
-            System.out.println("🎫 Ticket ID: " + ticketId);
-            System.out.println("🕒 Время въезда: " + timeEntry);
-            System.out.println("✅ Машина успешно зарегистрирована!\n");
         } else {
             System.out.println("⚠️ Автомобиль уже зарегистрирован!");
         }
     }
 
-    // метод добавления зарегистрированых автомобилей
-    private void addListCarOnParking(Integer parkingPlace) {
-        listCarOnParking.add(parkingPlace);
-        System.out.println("✅ Авто добавлено в общий список зарегистрированных \uD83D\uDE99");
-    }
-
-    @Override
-    public List<Integer> getListCarOnParking() {
-        return listCarOnParking;
-    }
-
     @Override
     public String introduce() {
         return "";
+    }
+
+    @Override
+    public void printParkingTicket() {
+        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formattedDate = timeEntry.format(formatter);
+
+        System.out.println("\n=======================================");
+        System.out.println("      🅿️  PARKING TICKET  🅿️      ");
+        System.out.println("=======================================");
+        System.out.println("🎫 ID билета:  " + ticketId);
+        System.out.println("📍 Место №:    " + parkingPlace + " (" + size + ")");
+        System.out.println("📆 Час в'їзду: " + formattedDate);
+        System.out.println("🚘 Авто:       " + brand + " " + type + " (" + carNumber + ")");
+        System.out.println("👤 Владелец:    " + name);
+        System.out.println("💰 Тариф:      " + size.getRatePerHour() + " €/час");
+        System.out.println("=======================================");
+        System.out.println("✅ Шлагбаум открыт. Хорошего дня!\n");
+    }
+
+    @Override
+    public void leaveParking(int hoursStayed) {
+        if (!parked) {
+            System.out.println("⚠️ Эта машина не на парковке!");
+            return;
+        }
+
+        // 1. Симулируем время
+        this.timeDeparture = this.timeEntry.plusHours(hoursStayed);
+
+        // 2. Рассчитываем цену
+        double price = hoursStayed * size.getRatePerHour();
+
+        // 3. Выводим чек
+        System.out.println("\n💳 --- СЧЕТ ЗА ПАРКОВКУ ---");
+        System.out.println("Время стоянки: " + hoursStayed + " час.");
+        System.out.println("Тариф:       " + size.getRatePerHour() + " €/час");
+        System.out.println("К ОПЛАТЕ:   " + price + " €");
+        System.out.println("--------------------------------");
+
+        // 4. Оплата
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        boolean paymentSuccess = false;
+
+        while (!paymentSuccess) {
+            System.out.print("Выберите способ оплаты (cash, card, applepay): ");
+            String method = scanner.nextLine();
+
+            // Используем собственный метод из интерфейса Paymentsable
+            paymentSuccess = isPayment(method);
+
+            if (!paymentSuccess) {
+                System.out.println("❌ Оплата не прошла.");
+            }
+        }
+
+        // 5. Завершаем выезд - открываем шлагбаум
+        completeExit(price);
+    }
+
+    private void completeExit(double finalPrice) {
+        ParkingManager.freePlace(this.parkingPlace);
+        this.parked = false;
+        this.state = VehicleState.LEFT;
+
+        System.out.println("\n🚗 Шлагбаум открыт! Счастливого пути, " + name + "!");
+        System.out.println("Сплачено: " + finalPrice + " €");
     }
 }
