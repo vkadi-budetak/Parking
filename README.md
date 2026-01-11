@@ -20,13 +20,7 @@ The main goal of this project is to demonstrate a deep understanding of the Java
 * **In-Memory Storage:** Data is currently stored in memory (Java Collections) to demonstrate state management.
 
 ## 🚀 How to Run
-1.  **Clone the repository:**
-    ```bash
-    git clone [https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git](https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git)
-    ```
-2.  **Open the project** in IntelliJ IDEA or Eclipse.
-3.  **Navigate** to the `src` folder and find the `Main.java` class.
-4.  **Run** the `Main` class to start the console interaction.
+Clone the repository and run Main.java
 
 ## 🔜 Future Improvements (To-Do)
 As I continue my studies at AIT TR, I plan to upgrade this project:
